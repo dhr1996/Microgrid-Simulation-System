@@ -1,6 +1,6 @@
 //###########################################################################
 //
-//							Built By WuYu
+//							Built By ChenXu
 //
 //###########################################################################
 //
@@ -80,14 +80,14 @@ PID Vc_PID = PID_DEFAULTS;		// PID for Vc
 
 #define Vref 5.0f
 
-#define KX5_STATUS	 	GpioDataRegs.GPBDAT.bit.GPIO61							//X5״̬
-#define KX4_STATUS	 	GpioDataRegs.GPADAT.bit.GPIO19							//X4״̬
-#define KX3_STATUS	 	GpioDataRegs.GPADAT.bit.GPIO17							//X3״̬
-#define KX2_STATUS	 	GpioDataRegs.GPBDAT.bit.GPIO62							//X2״̬
-#define KX1_STATUS	 	GpioDataRegs.GPADAT.bit.GPIO22							//X1״̬
+#define KX5_STATUS	 	GpioDataRegs.GPBDAT.bit.GPIO61							//X5状态
+#define KX4_STATUS	 	GpioDataRegs.GPADAT.bit.GPIO19							//X4状态
+#define KX3_STATUS	 	GpioDataRegs.GPADAT.bit.GPIO17							//X3状态
+#define KX2_STATUS	 	GpioDataRegs.GPBDAT.bit.GPIO62							//X2状态
+#define KX1_STATUS	 	GpioDataRegs.GPADAT.bit.GPIO22							//X1状态
 
 float Va,Vb,Vc,Va_max,Vb_max,Vc_max,Va_min,Vb_min,Vc_min,Va_range;
-float count = 0;//����΢��
+float count = 0;//用于微调
 float i,N;
 float M = 0.45;
 float weitiao1 = 0;
@@ -127,7 +127,7 @@ int main(void)
 	// Initialize the PIE control registers to their default state.
 	   InitPieCtrl();
 
-   /*flash��¼ȥ��ע��*/
+   /*flash烧录去掉注释*/
 
 	   MemCopy(&RamfuncsLoadStart, &RamfuncsLoadEnd, &RamfuncsRunStart);
 
@@ -226,7 +226,7 @@ __interrupt void  adc_isr(void)
 				Vb = (AdcMirror.ADCRESULT1 - Vb_bias) * Vb_A + Vb_B;
 				Vc = (AdcMirror.ADCRESULT2 - Vc_bias) * Vc_A + Vc_B;
 
-				//PI����
+				//PI计算
 				Va_PID.Fdb = Va;
 				Vb_PID.Fdb = Vb;
 				Vc_PID.Fdb = Vc;
